@@ -5,22 +5,24 @@ import googlemaps
 import json
 import math
 
+
 def create_app(config):
     load_dotenv() 
     api_key = os.getenv("API_KEY") 
     app = Flask(__name__)
+    
 
-
-    gmaps = googlemaps.Client(key=api_key)
+    gmaps = googlemaps.Client(api_key)
 
 
     @app.route("/directions/<x>/<y>", methods=["GET"])
     def get_directions(x, y):
         directions_result = gmaps.directions(origin = x, destination = y)
         if directions_result:
-            return create_summary(directions_result), 200
+            return create_summary(directions_result, x, y), 200
         else:
             return json.dumps({"error": "Cannot find directions. Enter a drivable route!"}), 404
+
 
     def create_summary(directions, origin, destination):
         distance = math.floor(directions[0]["legs"][0]["distance"]["value"]/1609.34)
