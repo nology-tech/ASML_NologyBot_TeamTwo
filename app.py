@@ -19,7 +19,7 @@ def create_app(config):
     def get_directions(x, y):
         directions_result = gmaps.directions(origin = x, destination = y)
         if directions_result:
-            return create_summary(directions_result, origin = x, destination = y), 200
+            return create_summary(directions_result, x, y), 200
         else:
             return json.dumps({"error": "Cannot find directions. Enter a drivable route!"}), 404
 
