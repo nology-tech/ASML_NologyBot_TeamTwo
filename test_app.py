@@ -27,6 +27,11 @@ def client(app):
 def runner(app):
     return app.test_cli_runner()
 
+def test_home_page(client):
+    response = client.get('/')
+    assert response.status_code == 200
+   
+
 def test_get_directions(client):
     response = client.get('/directions/Disneyland/San_Diego')
     my_json = response.data.decode("UTF-8")
@@ -34,6 +39,7 @@ def test_get_directions(client):
     data = json.loads(my_json)
     print(data)
     assert response.status_code == 200
+
 
 def test_invalid_directions(client):
     response = client.get('/directions/Hawaii/San_Diego')
