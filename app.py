@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from dotenv import load_dotenv
 import os
 import googlemaps
@@ -14,6 +14,9 @@ def create_app(config):
 
     gmaps = googlemaps.Client(api_key)
 
+    @app.get("/")
+    def home():
+        return render_template("homepage.html")
 
     @app.route("/directions/<x>/<y>", methods=["GET"])
     def get_directions(x, y):
