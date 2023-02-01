@@ -35,7 +35,7 @@ def test_get_directions(client):
     print(data)
     assert response.status_code == 200
 
-def test_(client):
+def test_invalid_directions(client):
     response = client.get('/directions/Hawaii/San_Diego')
     my_json = response.data.decode("UTF-8")
     print(my_json)
