@@ -54,6 +54,14 @@ input[type=submit] {
     background-color: lightgrey;
 }
 
+#driving {
+    margin: 10px 0;
+}
+
+#transit {
+    margin-bottom: 10px;
+}
+
 label {
     font-weight: bold;
 }

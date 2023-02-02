@@ -19,6 +19,11 @@
           <input type="text" id="currentLocation" name="currentLocation" required><br>
           <label for="destination">To:</label><br>
           <input type="text" id="destination" name="destination" required><br><br>
+          <label for="transit mode">Select your preferred method of transit:</label><br>
+          <input type="radio" id="driving" name="radio" value="driving" required>
+          <label for="driving">Driving</label><br>
+          <input type="radio" id="transit" name="radio" value="transit" required>
+          <label for="transit">Public Transit</label><br>
           <input type="submit" value="Submit">
         </form>
       </div>
@@ -33,7 +38,13 @@
   function getInfo(){
     var currentLocation = document.getElementById("currentLocation").value;
     var destination = document.getElementById("destination").value;
-    var url = "/directions/" + currentLocation + "/" + destination;
+    var radio = document.getElementsByName('radio');
+    var transit = ""
+    for (i = 0; i < radio.length; i++) {
+                if(radio[i].checked)
+                  transit = radio[i].value;
+            }
+    var url = "/directions/" + currentLocation + "/" + destination + "/" + transit;
     // open in same window
     // window.location.href = url;
     // open in new window

@@ -18,23 +18,37 @@ def create_app(config):
     def home():
         return render_template("homepage.html")
 
-    @app.route("/directions/<x>/<y>", methods=["GET"])
-    def get_directions(x, y):
-        directions_result = gmaps.directions(origin = x, destination = y)
+    @app.route("/directions/<x>/<y>/<z>", methods=["GET"])
+    def get_directions(x, y, z):
+        directions_result = gmaps.directions(origin = x, destination = y, mode = z)
         if directions_result:
             return create_summary(directions_result, x, y), 200
         else:
-            return json.dumps({"error": "Cannot find directions. Enter a drivable route!"}), 404
+            return json.dumps({"error": "An error occurred or there are no available directions for this search."}), 404
 
 
     def create_summary(directions, origin, destination):
         distance = math.floor(directions[0]["legs"][0]["distance"]["value"]/1609.34)
         time = math.floor(directions[0]["legs"][0]["duration"]["value"]/3600)
-        speed = distance/time
+        speed = math.floor(distance/time)
         endLatLon = directions[0]["legs"][0]["end_location"]
         startLatLon = directions[0]["legs"][0]["start_location"]
-        modeOfTravel = directions[0]["legs"][0]["steps"][0]["travel_mode"]
-        summary = f"You will be starting at {origin} and {modeOfTravel.lower()} a total distance of {distance} miles with an average speed of {speed} mph until you reach your destination at {destination}."
+        travelModes = []
+        for mode in directions[0]["legs"][0]["steps"]:
+            travelModes.append(mode["travel_mode"].lower())
+        travelList = []
+        for word in travelModes:
+            if word not in travelList:
+                travelList.append(word)
+        travelList2 = []
+        for word in travelList:
+            if word == "transit":
+                word = "taking public " + word
+                travelList2.append(word)
+            else:
+                travelList2.append(word)
+        travelSentence = "/".join(travelList2)
+        summary = f"You will be starting at {origin} and {travelSentence} a total distance of {distance} miles with an average speed of {speed} mph until you reach your destination at {destination}."
 
         return json.dumps({"number of legs": len(directions[0]["legs"]),
                             "distance traveled": f"{distance} mi",
@@ -42,7 +56,7 @@ def create_app(config):
                             "average speed": f"{speed} mph",
                             "startLatLon": startLatLon,
                             "endLatLon": endLatLon,
-                            "travel mode": modeOfTravel,
+                            "travel mode": travelList,
                             "summary of trip": summary
         }, indent=4)
 
