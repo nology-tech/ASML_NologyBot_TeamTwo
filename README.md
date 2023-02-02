@@ -3,7 +3,7 @@
 ## Project: Flask & Google API
 
 ### Overview
-A Flask app with an API generated using Googlemaps to generate directions.
+This is a Flask app project that uses a Googlemaps API to generate directions from two locations. A user can submit their requests using a form and have information returned in json format about their destination. The application was unit tested using pytest to test the application functionality. 
 
 
 ### Virtual Environment Installation
@@ -36,33 +36,36 @@ A Flask app with an API generated using Googlemaps to generate directions.
 10. run: ```coverage html```, to generate htmlcov folder. Then open htmlcov/index.html with live server
 
 ### Requirements Gathering for TDD
-The purpose of testing this flask application is to test the functionality of the application. The scope of the tests will be to test the data from the googlemaps API, test if files exist, and test the http routes. The input data will be the starting location and the ending location. The output data will be the bson data that parse from the API. The results of our tests will have a final report. Some constraints are time availability and resource limitations. Some risks include test failures.
+The purpose of testing this flask application is to test the functionality of the application. The scope of the tests will be to test the data from the googlemaps API, test if files exist, test the http routes, and test the app configuration. The input data will be the starting location and the ending location. The output information will be the json data that we parse from the API. The results of our tests will have a final report. Some constraints are time availability and resource limitations. Some risks include test failures.
 
 ### User Story
-As a developer, I can connect a google API Key to my Flask app.
+As a developer, I can connect a google API Key to my Flask app
 
 As a developer, I can submit a request with two inputs that calls the google API
 
 As a developer, I have a route for get json data
 
-As a developer, I want to run unit tests for the data in my flask application, so that issues can be identified and fixed before the application is deployed to production. 
+As a developer, I want to run unit tests for the data in my flask application, so that issues can be identified and fixed before the application is deployed to production 
 
-As a developer, I want to be able to test that data can be created and retrieved from the database and that the data is correct. 
+As a developer, I want to be able to test that data can be retrieved from the API and that the data is correct 
 
-As a developer, I have 75% minimum test coverage for the backend
+As a developer, I want 75% minimum test coverage for the backend
 
 ### Test Cases
 1. Test the data retrieved from the google API 
 2. Test file path for files 
 3. Test content in files
-4. Test that the http routes work
-5. Test response status codes 
+4. Test the http routes
+5. Test invalid inputs
+6. Test the app configuration 
 
 ### Test Summary
+There are 6 pytest tests that passed. The test report and coverage report can be referenced for detailed information about each unit test and overall coverage.
+
     • Tested feature: Googlemaps API
     • Test environment: Development
     • Test duration: 2 hours
-    • Test coverage: 88%
+    • Test coverage: 100%
     • Test results: Pass
 
 ### Test Cases Executed
@@ -71,25 +74,29 @@ Test case: Verify the data from the google API
     o Test result: Pass
     o Notes: Tested the data retrieved from API
 
-Test case: Verify data exists in database
-    o Test result: Pass
-    o Notes: Tested by returning data from db.
-
 Test case: Verify file paths exist
     o Test result: Pass
-    o Notes: Tested the file path to app.py and config.py
+    o Notes: Tested the file path to app.py
 
 Test case: Verify the contents of files
     o Test result: Pass
-    o Notes: Tested the contents of the app.py and config.py files 
+    o Notes: Tested the contents of the app.py
 
 Test case: Verify http routes work
     o Test result: Pass
-    o Notes: Tested the home route, get part by id routes, get all parts routes, post part routes, and delete parts by verifying status codes and json response data.      
+    o Notes: Tested the home route and get directions route by verifying status codes and json response data 
+
+Test case: Verify invalid inputs
+    o Test result: Pass
+    o Notes: Tested by asserting invalid input status code returned 404   
+
+Test case: Verify app configuration
+    o Test result: Pass
+    o Notes: Tested by asserting app config is true for testing         
     
 Test Issues
     • No Issues
-    Conclusion: Based on the results of the test cases executed, it can be concluded that the database is functioning as expected. 
+    Conclusion: Based on the results of the test cases executed, it can be concluded that the application and google API are functioning as expected. 
 ```    
 
 
