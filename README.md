@@ -43,7 +43,7 @@ As a developer, I can connect a google API Key to my Flask app
 
 As a developer, I can submit a request with two inputs that calls the google API
 
-As a developer, I have a route for get json data
+As a developer, I have a route to get json data
 
 As a developer, I want to run unit tests for the data in my flask application, so that issues can be identified and fixed before the application is deployed to production 
 
@@ -60,11 +60,11 @@ As a developer, I want 75% minimum test coverage for the backend
 6. Test the app configuration 
 
 ### Test Summary
-There are 6 pytest tests that passed. The test report and coverage report can be referenced for detailed information about each unit test and overall coverage.
+There are 10 pytest tests that passed. The test report and coverage report can be referenced for detailed information about each unit test and overall coverage.
 
     • Tested feature: Googlemaps API
     • Test environment: Development
-    • Test duration: 2 hours
+    • Test duration: 3 days
     • Test coverage: 100%
     • Test results: Pass
 
@@ -72,7 +72,7 @@ There are 6 pytest tests that passed. The test report and coverage report can be
 ```
 Test case: Verify the data from the google API
     o Test result: Pass
-    o Notes: Tested the data retrieved from API
+    o Notes: Tested the data retrieved from API by confirming data types
 
 Test case: Verify file paths exist
     o Test result: Pass
