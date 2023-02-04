@@ -35,7 +35,7 @@ This is a Flask app project that uses a Googlemaps API to generate directions fr
 9. run: ```coverage report -m```, to get coverage results
 10. run: ```coverage html```, to generate htmlcov folder. Then open htmlcov/index.html with live server
 
-### Requirements Gathering for TDD
+### Requirements Gathering
 The purpose of testing this flask application is to test the functionality of the application. The scope of the tests will be to test the data from the googlemaps API, test if files exist, test the http routes, and test the app configuration. The input data will be the starting location and the ending location. The output information will be the json data that we parse from the API. The results of our tests will have a final report. Some constraints are time availability and resource limitations. Some risks include test failures.
 
 ### User Story
