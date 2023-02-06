@@ -29,6 +29,14 @@ def test_home_page(client):
     response = client.get('/')
     assert response.status_code == 200
 
+def test_data_types(client):
+    response = client.get('/directions/San_Antonio/San_Diego/driving')
+    my_json = response.data.decode("UTF-8")
+    data = json.loads(my_json)
+    assert type(my_json) == str
+    assert type(data) == dict
+    assert response.status_code == 200    
+
 def test_find_legs(client):
     response = client.get('/directions/Disneyland/San_Diego/driving')
     my_json = response.data.decode("UTF-8")
@@ -36,7 +44,6 @@ def test_find_legs(client):
     assert type(data['number of legs']) == int
     assert data['number of legs'] == 1
     assert response.status_code == 200
-
 
 def test_find_distance(client):
     response = client.get('/directions/Disneyland/San_Diego/driving')
@@ -94,15 +101,6 @@ def test_invalid_directions(client):
     response = client.get('/directions/Hawaii/San_Diego/driving')
     assert b"An error occurred or there are no available directions for this search." in response.data
     assert response.status_code == 404
-
-
-def test_data_types(client):
-    response = client.get('/directions/San_Antonio/San_Diego/driving')
-    my_json = response.data.decode("UTF-8")
-    data = json.loads(my_json)
-    assert type(my_json) == str
-    assert type(data) == dict
-    assert response.status_code == 200  
 
 def test_driving_mode(client):
     response = client.get('/directions/SeaWorld/Los_Angeles/driving')
