@@ -22,7 +22,8 @@ def create_app(config):
     def get_directions(x, y, z):
         directions_result = gmaps.directions(origin = x, destination = y, mode = z)
         if directions_result:
-            return json.dumps({"distance": find_distance(directions_result),
+            return json.dumps({"number of legs": find_legs(directions_result),
+                                "distance": find_distance(directions_result),
                                 "time": find_time(directions_result),
                                 "speed": find_speed(directions_result),
                                 "startLatLon": find_startLatLon(directions_result),
@@ -32,19 +33,23 @@ def create_app(config):
         else:
             return json.dumps({"error": "An error occurred or there are no available directions for this search."}), 404
 
+    def find_legs(directions):
+        number_of_legs = len(directions[0]["legs"])
+        return number_of_legs
+
     def find_distance(directions):
         distance = math.floor(directions[0]["legs"][0]["distance"]["value"]/1609.34)
-        return distance
+        return f"{distance} mi"
 
     def find_time(directions):
         time = math.floor(directions[0]["legs"][0]["duration"]["value"]/3600)
-        return time
+        return f"{time} hrs"
 
     def find_speed(directions):
         distance = math.floor(directions[0]["legs"][0]["distance"]["value"]/1609.34)
         time = math.floor(directions[0]["legs"][0]["duration"]["value"]/3600)
         speed = math.floor(distance/time)
-        return speed
+        return f"{speed} mph"
 
     def find_startLatLon(directions):
         startLatLon = directions[0]["legs"][0]["start_location"]
@@ -65,18 +70,10 @@ def create_app(config):
         return travelList
 
     def create_summary(directions, origin, destination):
-        distance = math.floor(directions[0]["legs"][0]["distance"]["value"]/1609.34)
-        time = math.floor(directions[0]["legs"][0]["duration"]["value"]/3600)
-        speed = math.floor(distance/time)
-        endLatLon = directions[0]["legs"][0]["end_location"]
-        startLatLon = directions[0]["legs"][0]["start_location"]
-        travelModes = []
-        for mode in directions[0]["legs"][0]["steps"]:
-            travelModes.append(mode["travel_mode"].lower())
-        travelList = []
-        for word in travelModes:
-            if word not in travelList:
-                travelList.append(word)
+        distance = find_distance(directions)
+        time = find_time(directions)
+        speed = find_speed(directions)
+        travelList = find_travelModes(directions)
         travelList2 = []
         for word in travelList:
             if word == "transit":
@@ -85,17 +82,8 @@ def create_app(config):
             else:
                 travelList2.append(word)
         travelSentence = "/".join(travelList2)
-        summary = f"You will be starting at {origin} and {travelSentence} a total distance of {distance} miles with an average speed of {speed} mph until you reach your destination at {destination}."
-
-        return json.dumps({"number of legs": len(directions[0]["legs"]),
-                            "distance traveled": f"{distance} mi",
-                            "travel time": f"{time} hrs",
-                            "average speed": f"{speed} mph",
-                            "startLatLon": startLatLon,
-                            "endLatLon": endLatLon,
-                            "travel mode": travelList,
-                            "summary of trip": summary
-        }, indent=4)
+        summary = f"You will be starting at {origin} and {travelSentence} a total distance of {distance} with an average speed of {speed} until you reach your destination at {destination}."
+        return summary
 
     return app
 
