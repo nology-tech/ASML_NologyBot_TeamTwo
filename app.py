@@ -22,13 +22,13 @@ def create_app(config):
     def get_directions(x, y, z):
         directions_result = gmaps.directions(origin = x, destination = y, mode = z)
         if directions_result:
-            find_distance(directions_result)
-            find_time(directions_result)
-            find_speed(directions_result)
-            find_startLatLon(directions_result)
-            find_endLatLon(directions_result)
-            find_travelModes(directions_result)
-            return create_summary(directions_result, x, y), 200
+            return json.dumps({"distance": find_distance(directions_result),
+                                "time": find_time(directions_result),
+                                "speed": find_speed(directions_result),
+                                "startLatLon": find_startLatLon(directions_result),
+                                "endLatLon": find_endLatLon(directions_result),
+                                "travelModes": find_travelModes(directions_result),
+                                "summary": create_summary(directions_result, x, y)}, indent=4), 200
         else:
             return json.dumps({"error": "An error occurred or there are no available directions for this search."}), 404
 
