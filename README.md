@@ -60,7 +60,7 @@ As a developer, I want 75% minimum test coverage for the backend
 6. Test the app configuration 
 
 ### Test Summary
-There are 10 pytest tests that passed. The test report and coverage report can be referenced for detailed information about each unit test and overall coverage.
+There are 17 pytest tests that passed. The test report and coverage report can be referenced for detailed information about each unit test and overall coverage.
 
     • Tested feature: Googlemaps API
     • Test environment: Development
