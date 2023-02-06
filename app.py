@@ -22,10 +22,47 @@ def create_app(config):
     def get_directions(x, y, z):
         directions_result = gmaps.directions(origin = x, destination = y, mode = z)
         if directions_result:
+            find_distance(directions_result)
+            find_time(directions_result)
+            find_speed(directions_result)
+            find_startLatLon(directions_result)
+            find_endLatLon(directions_result)
+            find_travelModes(directions_result)
             return create_summary(directions_result, x, y), 200
         else:
             return json.dumps({"error": "An error occurred or there are no available directions for this search."}), 404
 
+    def find_distance(directions):
+        distance = math.floor(directions[0]["legs"][0]["distance"]["value"]/1609.34)
+        return distance
+
+    def find_time(directions):
+        time = math.floor(directions[0]["legs"][0]["duration"]["value"]/3600)
+        return time
+
+    def find_speed(directions):
+        distance = math.floor(directions[0]["legs"][0]["distance"]["value"]/1609.34)
+        time = math.floor(directions[0]["legs"][0]["duration"]["value"]/3600)
+        speed = math.floor(distance/time)
+        return speed
+
+    def find_startLatLon(directions):
+        startLatLon = directions[0]["legs"][0]["start_location"]
+        return startLatLon
+
+    def find_endLatLon(directions):
+        endLatLon = directions[0]["legs"][0]["end_location"]
+        return endLatLon
+
+    def find_travelModes(directions):
+        travelModes = []
+        for mode in directions[0]["legs"][0]["steps"]:
+            travelModes.append(mode["travel_mode"].lower())
+        travelList = []
+        for word in travelModes:
+            if word not in travelList:
+                travelList.append(word)
+        return travelList
 
     def create_summary(directions, origin, destination):
         distance = math.floor(directions[0]["legs"][0]["distance"]["value"]/1609.34)
