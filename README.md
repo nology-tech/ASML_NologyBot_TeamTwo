@@ -52,15 +52,16 @@ As a developer, I want to be able to test that data can be retrieved from the AP
 As a developer, I want 75% minimum test coverage for the backend
 
 ### Test Cases
-1. Test the data retrieved from the google API 
-2. Test file path for files 
-3. Test content in files
-4. Test the http routes
-5. Test invalid inputs
-6. Test the app configuration 
+1. Integration testing the data retrieved from the google API 
+2. Integration testing the http routes
+3. Integration testing invalid inputs
+4. Integration testing the app configuration 
+5. Unit testing expected output of functions using mock json data
+6. Unit testing file path for files 
+7. Unit testing content in files
 
 ### Test Summary
-There are 18 pytest tests that passed. The test report and coverage report can be referenced for detailed information about each unit test and overall coverage.
+There are 26 pytest tests that passed. The test report and coverage report can be referenced for detailed information about each unit test and overall coverage.
 
     • Tested feature: Googlemaps API
     • Test environment: Development
@@ -70,29 +71,33 @@ There are 18 pytest tests that passed. The test report and coverage report can b
 
 ### Test Cases Executed
 ```
-Test case: Verify the data from the google API
+Integration Test case: Verify the data from the google API
     o Test result: Pass
     o Notes: Tested the data retrieved from API by confirming data types
 
-Test case: Verify file paths exist
-    o Test result: Pass
-    o Notes: Tested the file path to app.py
-
-Test case: Verify the contents of files
-    o Test result: Pass
-    o Notes: Tested the contents of the app.py
-
-Test case: Verify http routes work
+Integration Test case: Verify http routes work
     o Test result: Pass
     o Notes: Tested the home route and get directions route by verifying status codes and json response data 
 
-Test case: Verify invalid inputs
+Integration Test case: Verify invalid inputs
     o Test result: Pass
     o Notes: Tested by asserting invalid input status code returned 404   
 
-Test case: Verify app configuration
+Integration Test case: Verify app configuration
     o Test result: Pass
-    o Notes: Tested by asserting app config is true for testing         
+    o Notes: Tested by asserting app config is true for testing 
+
+Unit Test case: Verify expected output of functions using mock json data
+    o Test result: Pass
+    o Notes: Tested functions: find_legs, find_distance, find_time, find_speed, find_startLatLon, find_endLatLon, find_travelModes, and create_summary using mock json data      
+
+Unit Test case: Verify file paths exist
+    o Test result: Pass
+    o Notes: Tested the file path to app.py
+
+Unit Test case: Verify the contents of files
+    o Test result: Pass
+    o Notes: Tested the contents of the app.py          
     
 Test Issues
     • No Issues
