@@ -149,7 +149,7 @@ def test_summary_data_transit_integration(client):
     assert type(data['summary']) == str
     speed = approx(data['speed'])
     distance = approx(data['distance'])
-    assert data['summary'] == f"You will be starting at SeaWorld and taking public transit/walking a total distance of {distance} with an average speed of {speed} until you reach your destination at Los_Angeles."  
+    assert data['summary'] == f"You will be starting at SeaWorld and walking/taking public transit a total distance of {distance} with an average speed of {speed} until you reach your destination at Los_Angeles."  
 
 def test_config_integration():
     logger.info('Integration testing config of app')
