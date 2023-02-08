@@ -152,7 +152,7 @@ def test_summary_data_transit_integration(client):
     assert data['summary'] == f"You will be starting at SeaWorld and walking/taking public transit a total distance of {distance} with an average speed of {speed} until you reach your destination at Los_Angeles."  
 
 def test_config_integration():
-    logger.info('Integration testing config of app')
+    logger.info('Integration testing configuration of app')
     assert not create_app('config').testing
     assert create_app({'TESTING': True})
 
