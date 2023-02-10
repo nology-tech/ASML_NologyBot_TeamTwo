@@ -95,7 +95,7 @@ def test_find_endlatLon_integration(client):
     assert type(data['endLatLon']) == dict
     assert data['endLatLon'] == {"lat": 32.7157323, "lng": -117.1610969}
  
-def test_valid_transportation_integration(client):
+def test_find_travelMode_integration(client):
     logger.info('Integration testing Florida to San Diego travel mode')
     response = client.get('/directions/Florida/San_Diego/driving')
     my_json = response.data.decode("UTF-8")
@@ -105,13 +105,7 @@ def test_valid_transportation_integration(client):
 def test_invalid_transportation_integration(client):
     logger.info('Integration testing Disneyland to San Diego invalid travel mode')
     response = client.get('/directions/Disneyland/San_Diego/driving')
-    assert ['swimming'] not in ['travelModes']    
-
-def test_invalid_directions_integration(client):
-    logger.info('Integration testing invalid directions status code 404')
-    response = client.get('/directions/Hawaii/San_Diego/driving')
-    assert b"An error occurred or there are no available directions for this search." in response.data
-    assert response.status_code == 404
+    assert ['swimming'] not in ['travelModes']        
 
 def test_driving_mode_integration(client):
     logger.info('Integration testing Seaworld to Los Angeles driving mode')
@@ -149,7 +143,13 @@ def test_summary_data_transit_integration(client):
     assert type(data['summary']) == str
     speed = approx(data['speed'])
     distance = approx(data['distance'])
-    assert data['summary'] == f"You will be starting at SeaWorld and walking/taking public transit a total distance of {distance} with an average speed of {speed} until you reach your destination at Los_Angeles."  
+    assert data['summary'] == f"You will be starting at SeaWorld and walking/taking public transit a total distance of {distance} with an average speed of {speed} until you reach your destination at Los_Angeles."      
+
+def test_invalid_directions_integration(client):
+    logger.info('Integration testing invalid directions status code 404')
+    response = client.get('/directions/Hawaii/San_Diego/driving')
+    assert b"An error occurred or there are no available directions for this search." in response.data
+    assert response.status_code == 404
 
 def test_config_integration():
     logger.info('Integration testing configuration of app')
