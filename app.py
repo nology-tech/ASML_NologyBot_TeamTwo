@@ -32,6 +32,39 @@ def create_app(config):
         else:
             return json.dumps({"error": "An error occurred or there are no available directions for this search."}), 404
 
+
+    @app.route("/alternative-directions/<x>/<y>", methods=["GET"])
+    def get_alternative_directions(x, y):
+        directions_result = gmaps.directions(origin = x, destination = y, alternatives = True)
+        if directions_result:
+            return directions_result, 200
+        else:
+            return json.dumps({"error": "An error occurred or there are no available directions for this search."}), 404
+
+
+    @app.route("/waypoint-directions/<x>/<y>/<z>", methods=["GET"])
+    def get_waypoint_directions(x, y, z):
+        directions_result = gmaps.directions(origin = x, destination = y, waypoints = z, optimize_waypoints = True)
+        for i, leg in enumerate(directions_result[0]["legs"]):   
+            print("Stop:" + str(i),
+                leg["start_address"], 
+                "==> ",
+                leg["end_address"], 
+                "distance: ",  
+                leg["distance"]["value"], 
+                "traveling Time: ",
+                leg["duration"]["value"]
+            )
+        if directions_result:
+            return directions_result
+        else:
+            return json.dumps({"error": "An error occurred or there are no available directions for this search."}), 404 
+    
+    
+
+
+        
+
     return app
 
 app = create_app({"TESTING": False})
