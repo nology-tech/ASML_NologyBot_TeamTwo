@@ -58,9 +58,9 @@ def create_app(config):
         else:
             return json.dumps({"error": "An error occurred or there are no available directions for this search."}), 404        
     
-    @app.route("/transit-directions/<x>/<y>/<z>/<t>", methods=["GET"])
-    def get_transit_directions(x, y, z, t):
-        directions_result = gmaps.directions(origin = x, destination = y, mode = z, transit_mode = t)
+    @app.route("/transit-directions/<x>/<y>/<t>", methods=["GET"])
+    def get_transit_directions(x, y, t):
+        directions_result = gmaps.directions(origin = x, destination = y, mode = "transit", transit_mode = t)
         if directions_result:
             return directions_result
         else:
