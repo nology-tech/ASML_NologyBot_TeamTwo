@@ -33,6 +33,11 @@ def client(app):
 def runner(app):
     return app.test_cli_runner() 
 
+def test_config_integration():
+    logger.info('Integration testing configuration of app')
+    assert not create_app('config').testing
+    assert create_app({'TESTING': True})    
+
 def test_home_page_integration(client):
     logger.info('Integration testing home route')
     response = client.get('/')
@@ -105,7 +110,9 @@ def test_find_travelMode_integration(client):
 def test_invalid_transportation_integration(client):
     logger.info('Integration testing Disneyland to San Diego invalid travel mode')
     response = client.get('/directions/Disneyland/San_Diego/driving')
-    assert ['swimming'] not in ['travelModes']        
+    my_json = response.data.decode("UTF-8")
+    data = json.loads(my_json)
+    assert ['swimming'] not in data['travelModes']        
 
 def test_driving_mode_integration(client):
     logger.info('Integration testing Seaworld to Los Angeles driving mode')
@@ -151,9 +158,83 @@ def test_invalid_directions_integration(client):
     assert b"An error occurred or there are no available directions for this search." in response.data
     assert response.status_code == 404
 
-def test_config_integration():
-    logger.info('Integration testing configuration of app')
-    assert not create_app('config').testing
-    assert create_app({'TESTING': True})
+def test_alternative_directions(client):
+    logger.info('Integration testing alternative routes')
+    response = client.get('/alternative-directions/Los_Angeles/San_Diego')
+    my_json = response.data.decode("UTF-8")
+    data = json.loads(my_json)
+    assert type(data) == list
+    assert len(data) > 1
+   
+def test_invalid_alternative_directions(client):
+    logger.info('Integration testing inalid alternative routes')
+    response = client.get('/alternative-directions/Hawaii/San_Diego')
+    assert response.status_code == 404
 
+def test_waypoint_directions(client):
+    logger.info('Integration testing waypoint directions')
+    response = client.get('/waypoint-directions/Los_Angeles/San_Antonio/el_paso|san_diego')
+    my_json = response.data.decode("UTF-8")
+    data = json.loads(my_json)
+    assert data[0]['legs'][0]['start_address'] == "Los Angeles, CA, USA"
+    assert data[0]['legs'][1]['start_address'] == "San Diego, CA, USA"
+    assert data[0]['legs'][2]['start_address'] == "El Paso, TX, USA"
+    assert data[0]['legs'][0]['end_address'] == "San Diego, CA, USA"
+    assert data[0]['legs'][1]['end_address'] == "El Paso, TX, USA"
+    assert data[0]['legs'][2]['end_address'] == "San Antonio, TX, USA"
 
+def test_invalid_waypoint_directions(client):
+    logger.info('Integration testing invalid waypoint routes')
+    response = client.get('/waypoint-directions/Los_Angeles/San_Antonio/el_paso|hawaii')
+    assert response.status_code == 404    
+    
+def test_avoid_ferries(client):
+    logger.info('Integration testing avoid ferries')
+    response = client.get('/avoid-directions/San_Diego/San_Franscisco/ferries')
+    my_json = response.data.decode("UTF-8")
+    data = json.loads(my_json)
+    assert "Toll road" in data[0]['legs'][0]['steps'][16]['html_instructions'] 
+    # assert "ferry" not in data[0]['legs'][0]['steps']
+    
+     
+def test_avoid_tolls(client):
+    logger.info('Integration testing avoid tolls')
+    response = client.get('/avoid-directions/San_Diego/San_Franscisco/tolls')
+    my_json = response.data.decode("UTF-8")
+    data = json.loads(my_json)
+    # assert "Toll road" not in data[0]['legs'][0]['steps']
+    assert "I-5 N" in data[0]['legs'][0]['steps'][3]['html_instructions']   
+
+def test_avoid_highways(client):
+    logger.info('Integration testing avoid tolls')
+    response = client.get('/avoid-directions/Whidbey_Island/Seattle/highways')
+    my_json = response.data.decode("UTF-8")
+    data = json.loads(my_json)
+    # assert "highways" and "Freeway" and "Exit" not in data[0]['legs'][0]['steps']
+    assert "Toll road" in data[0]['legs'][0]['steps'][1]['html_instructions']
+    assert "ferry" in data[0]['legs'][0]['steps'][3]['html_instructions']
+
+def test_invalid_avoid_directions(client):
+    logger.info('Integration testing invalid avoid directions')
+    response = client.get('/avoid-directions/San_Diego/San_Franscisco')
+    assert response.status_code == 404     
+
+def test_transit_rail(client):
+    logger.info('Integration testing transit directions')
+    response = client.get('/transit-directions/San_Diego/Los_Angeles/transit/rail')
+    my_json = response.data.decode("UTF-8")
+    data = json.loads(my_json)
+    assert "Train" in data[0]['legs'][0]['steps'][0]['html_instructions']
+
+def test_transit_bus(client):
+    logger.info('Integration testing transit directions')
+    response = client.get('/transit-directions/San_Diego/Los_Angeles/transit/bus')
+    my_json = response.data.decode("UTF-8")
+    data = json.loads(my_json)
+    assert "Bus" in data[0]['legs'][0]['steps'][0]['html_instructions'] 
+    assert "Train" not in data[0]['legs'][0]['steps'][0]['html_instructions']
+
+def test_invalid_transit_directions(client):
+    logger.info('Integration testing transit directions')
+    response = client.get('/transit-directions/San_Diego/Los_Angeles/transit')
+    assert response.status_code == 404     
