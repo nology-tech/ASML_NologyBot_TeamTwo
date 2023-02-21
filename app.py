@@ -45,22 +45,12 @@ def create_app(config):
     @app.route("/waypoint-directions/<x>/<y>/<z>", methods=["GET"])
     def get_waypoint_directions(x, y, z):
         directions_result = gmaps.directions(origin = x, destination = y, waypoints = z, optimize_waypoints = True)
-        for i, leg in enumerate(directions_result[0]["legs"]):   
-            print("Stop:" + str(i),
-                leg["start_address"], 
-                "==> ",
-                leg["end_address"], 
-                "distance: ",  
-                leg["distance"]["value"], 
-                "traveling Time: ",
-                leg["duration"]["value"]
-            )
         if directions_result:
             return directions_result
         else:
             return json.dumps({"error": "An error occurred or there are no available directions for this search."}), 404 
     
-    @app.route("/avoid-directions/<x>/<y>/<a>/", methods=["GET"])
+    @app.route("/avoid-directions/<x>/<y>/<a>", methods=["GET"])
     def get_avoid_directions(x, y, a):
         directions_result = gmaps.directions(origin = x, destination = y, avoid = a)
         if directions_result:
