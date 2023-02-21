@@ -1,6 +1,6 @@
 # Flask_Google_API
 
-## Project: Setting-Up Jenkins
+## Project: Jenkins test
 
 ### Overview
 This is a Flask app project that uses a Googlemaps API to generate directions from two locations. A user can submit their requests using a form and have information returned in json format about their destination. The application was unit tested using pytest to test the application functionality. 
