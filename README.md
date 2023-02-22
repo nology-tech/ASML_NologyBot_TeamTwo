@@ -113,11 +113,12 @@ Test Issues
 ![Screenshot 2023-02-08 at 8 53 43 AM](https://user-images.githubusercontent.com/104322947/217598694-8703e1e7-0623-4bad-bd5a-1abf98a345d2.png)
 
 
-#### Smoke Test Summary Report
-Testing with light load (1 user)
+#### Smoke Test Summary Report: Testing with light load (1 user)
+![Screenshot 2023-02-21 at 2 36 30 PM](https://user-images.githubusercontent.com/104322947/220699660-43f45380-3551-4f52-a279-4ec2515828c0.png)
 
-#### Load Test Summary Report
-Testing with specific load (100 users)
 
-### Stress Test Summary Report
-Testing with high load (1000 users)
+#### Load Test Summary Report: Testing with specific load (100 users)
+![Screenshot 2023-02-21 at 3 02 40 PM](https://user-images.githubusercontent.com/104322947/220699685-7d602a14-eb81-44b4-b695-73557767a268.png)
+
+### Stress Test Summary Report: Testing with high load (1000 users)
+![Screenshot 2023-02-22 at 8 45 45 AM](https://user-images.githubusercontent.com/104322947/220699717-76577df3-0f11-42a3-9243-4759bdaec590.png)
