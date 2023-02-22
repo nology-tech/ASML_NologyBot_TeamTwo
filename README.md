@@ -111,3 +111,13 @@ Test Issues
 
 #### Coverage Report
 ![Screenshot 2023-02-08 at 8 53 43 AM](https://user-images.githubusercontent.com/104322947/217598694-8703e1e7-0623-4bad-bd5a-1abf98a345d2.png)
+
+
+#### Smoke Test Summary Report
+Testing with light load (1 user)
+
+#### Load Test Summary Report
+Testing with specific load (100 users)
+
+### Stress Test Summary Report
+Testing with high load (1000 users)
