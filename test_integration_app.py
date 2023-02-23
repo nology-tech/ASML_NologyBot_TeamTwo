@@ -226,7 +226,7 @@ def test_transit_rail(client):
     logger.info('Integration testing transit rail directions')
     response = client.get('/transit-directions/San_Diego/Los_Angeles/rail')
     my_json = response.data.decode("UTF-8")
-    assert "Train" or "Submway" or "Tram" in my_json
+    assert "Train" or "Subway" or "Tram" in my_json
 
 def test_transit_bus(client):
     logger.info('Integration testing transit bus directions')
